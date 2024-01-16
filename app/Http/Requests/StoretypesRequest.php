@@ -11,7 +11,7 @@ class StoretypesRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,6 +23,16 @@ class StoretypesRequest extends FormRequest
     {
         return [
             //
+            'name'=> ['required', 'string', 'max:100', 'min:3','unique:types'],
+        ];
+    }
+
+    public function messages(){
+        return[
+            'name.unique' => 'The name must be unique.',
+            'name.required' => 'The name field is required.',
+            'name.min' => 'The name must be at least :min characters.',
+            'name.max' => 'The name may not be greater than :max characters.',
         ];
     }
 }

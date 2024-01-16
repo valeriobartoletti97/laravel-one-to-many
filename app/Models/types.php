@@ -9,4 +9,10 @@ class types extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function projects(){
+        return $this->hasMany(Project::class);
+    }
 }
+
+
