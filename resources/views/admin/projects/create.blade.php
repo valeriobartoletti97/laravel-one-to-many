@@ -34,9 +34,11 @@
         </div>
             <div class="mb-3">
                 <label for="url" class="form-label">Url</label>
-                <input type="url" name="url" id="url" class="form-control"
-                    @error('name') is-invalid @enderror>
+                <input type="url" name="url" id="url" class="form-control">
             </div>
+            @error('url')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
             <div class="d-flex mb-3 align-items-end">
                 <div class="me-1">
                     <img id="uploadPreview" width="200" src="https://via.placeholder.com/300x200">
@@ -48,9 +50,6 @@
                         @enderror
                 </div>
             </div>
-            @error('url')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
             <button type="submit" class="btn btn-primary text-uppercase">Create</button>
         </form>
     </section>

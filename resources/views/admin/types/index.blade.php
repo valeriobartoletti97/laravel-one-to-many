@@ -1,18 +1,13 @@
 @extends('layouts.app')
-{{-- @php
-dd($projects)
-@endphp --}}
 @section('content')
     <section class="container">
+        <h1 class="text-center mt-3 text-uppercase">Types List</h1>
         <div class="container mt-4">
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">Project Name</th>
-                        <th scope="col">Language</th>
-                        <th scope="col">Commits</th>
-                        <th scope="col">Created</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">Types Name</th>
+                        <th scope="col" class="d-flex justify-content-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -21,28 +16,25 @@ dd($projects)
                             {{ session()->get('message') }}
                         </div>
                     @endif
-                        @foreach ($projects as $project)
+                        @foreach ($types as $type)
                             <tr>
                                 <th>
-                                    <a href="{{ route('admin.projects.show', $project->id) }}">
-                                        {{ $project->name }}
+                                    <a href="{{ route('admin.types.show', $type->id) }}">
+                                        {{ $type->name }}
                                     </a>
                                 </th>
-                                <td>{{ $project->language }}</td>
-                                <td>{{ $project->commits }}</td>
-                                <td>{{ $project->created }}</td>
-                                <td>
+                                <td class="d-flex justify-content-center gap-1">
                                     <button type="button" class="btn btn-primary border border-secondary">
-                                        <a href="{{ route('admin.projects.show', $project->id) }}">
+                                        <a href="{{ route('admin.types.show', $type->id) }}">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>
                                     </button>
                                     <button type="button" class="btn btn-warning border border-secondary">
-                                        <a href="{{ route('admin.projects.edit', $project->id) }}">
+                                        <a href="{{ route('admin.types.edit', $type->id) }}">
                                             <i class="fa-solid fa-pen"></i>
                                         </a>
                                     </button>
-                                    <form action="{{ route('admin.projects.destroy', $project->id) }}" method="POST"
+                                    <form action="{{ route('admin.types.destroy', $type->id) }}" method="POST"
                                         class="d-inline">
                                         @csrf
                                         @method('DELETE')
@@ -56,9 +48,9 @@ dd($projects)
                 </tbody>
             </table>
             <div class="container mt-2 pb-5 d-flex justify-content-center align-content-center">
-                <a href="{{ route('admin.projects.create') }}">
+                <a href="{{ route('admin.types.create') }}">
                     <button class="btn btn-primary text-uppercase">
-                        Add new Project
+                        Add new type
                     </button>
                 </a>
             </div>

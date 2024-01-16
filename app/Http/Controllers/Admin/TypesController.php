@@ -6,6 +6,7 @@ use App\Models\types;
 use App\Http\Requests\StoretypesRequest;
 use App\Http\Requests\UpdatetypesRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 
 
 class TypesController extends Controller
@@ -16,6 +17,8 @@ class TypesController extends Controller
     public function index()
     {
         //
+        $types = types::All();
+        return view('admin.types.index', compact('types'));
     }
 
     /**
@@ -24,6 +27,7 @@ class TypesController extends Controller
     public function create()
     {
         //
+        return view('admin.types.create');
     }
 
     /**
@@ -32,37 +36,57 @@ class TypesController extends Controller
     public function store(StoretypesRequest $request)
     {
         //
+        $data = $request->validated();
+        //CREATE SLUG
+        $slug = Str::slug($data['name']). '-';
+        //add slug to data
+        $data['slug'] = $slug;
+        $type = types::create($data);
+        return to_route('admin.types.index', $type->id);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(types $types)
+    public function show(types $type)
     {
         //
+        return view('admin.types.show', compact('type'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(types $types)
+    public function edit(types $type)
     {
         //
+        return view('admin.types.edit', compact('type'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatetypesRequest $request, types $types)
+    public function update(UpdatetypesRequest $request, types $type)
     {
         //
+        $data = $request->validated();
+        $data['slug'] = $type->slug;
+        if ($type->name !== $data['name']) {
+            //CREATE SLUG
+            $slug = Str::slug($data['name']). '-';
+            $data['slug'] = $slug;
+        }
+        $type->update($data);
+        return to_route('admin.types.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(types $types)
+    public function destroy(types $type)
     {
         //
+        $type->delete();
+        return to_route('admin.types.index')->with('message', "$type->name successfully deleted");
     }
 }
